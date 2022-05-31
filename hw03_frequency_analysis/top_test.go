@@ -7,7 +7,7 @@ import (
 )
 
 // Change to true if needed.
-var taskWithAsteriskIsCompleted = false
+var taskWithAsteriskIsCompleted = true
 
 var text = `Как видите, он  спускается  по  лестнице  вслед  за  своим
 	другом   Кристофером   Робином,   головой   вниз,  пересчитывая
@@ -42,6 +42,14 @@ var text = `Как видите, он  спускается  по  лестни�
 	иногда,  особенно  когда  папа  дома,  он больше любит тихонько
 	посидеть у огня и послушать какую-нибудь интересную сказку.
 		В этот вечер...`
+
+var LoremText = `Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+	Lorem Ipsum has been the industry's standard dummy text ever since the 
+1500s, when an unknown printer took a galley of type and scrambled it to make
+a type specimen book. It has survived not only five centuries, but also the leap
+into electronic typesetting, remaining essentially unchanged. It was popularised 
+in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, 
+and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`
 
 func TestTop10(t *testing.T) {
 	t.Run("no words in empty string", func(t *testing.T) {
@@ -78,5 +86,20 @@ func TestTop10(t *testing.T) {
 			}
 			require.Equal(t, expected, Top10(text))
 		}
+	})
+
+	t.Run("empty string", func(t *testing.T) {
+		var expected []string
+		require.ElementsMatch(t, expected, Top10(""))
+	})
+
+	t.Run("lorem text", func(t *testing.T) {
+		var expected = []string{"the", "ipsum", "lorem", "of", "and", "it", "a", "dummy", "has", "text"}
+		require.Equal(t, expected, Top10(LoremText))
+	})
+
+	t.Run("short text", func(t *testing.T) {
+		var expected = []string{"text", "short"}
+		require.Equal(t, expected, Top10("short text text"))
 	})
 }
