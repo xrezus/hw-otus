@@ -1,4 +1,4 @@
-module github.com/xrezus/hw-otus/tree/master/hw03_frequency_analysis
+module github.com/xrezus/hw-otus/hw03_frequency_analysis
 
 go 1.16
 
