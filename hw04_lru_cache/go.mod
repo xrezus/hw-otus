@@ -1,4 +1,4 @@
-module github.com/xrezus/hw-otus/tree/master/hw04_lru_cache
+module github.com/xrezus/hw-otus/hw04_lru_cache
 
 go 1.16
 
