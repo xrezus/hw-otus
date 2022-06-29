@@ -67,4 +67,30 @@ func TestRun(t *testing.T) {
 		require.Equal(t, runTasksCount, int32(tasksCount), "not all tasks were completed")
 		require.LessOrEqual(t, int64(elapsedTime), int64(sumTime/2), "tasks were run sequentially?")
 	})
+
+	t.Run("no workers", func(t *testing.T) {
+		tasksCount := 10
+		for _, ts := range []struct {
+			workersCount int
+		}{
+			{workersCount: 0},
+			{workersCount: -1},
+		} {
+			t.Run(fmt.Sprintf("count of workers %d", ts.workersCount), func(t *testing.T) {
+				tasks := make([]Task, 0, tasksCount)
+				var runTasksCount int32
+				for i := 0; i < tasksCount; i++ {
+					taskSleep := time.Millisecond * time.Duration(rand.Intn(100))
+					tasks = append(tasks, func() error {
+						time.Sleep(taskSleep)
+						atomic.AddInt32(&runTasksCount, 1)
+						return nil
+					})
+				}
+				result := Run(tasks, ts.workersCount, 0)
+				require.Equal(t, ErrNoWorkers, result)
+				require.Equal(t, int32(0), runTasksCount)
+			})
+		}
+	})
 }
