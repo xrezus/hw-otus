@@ -2,6 +2,8 @@ package main
 
 import (
 	"flag"
+	"log"
+	"os"
 )
 
 var (
@@ -18,5 +20,13 @@ func init() {
 
 func main() {
 	flag.Parse()
-	// Place your code here.
+
+	if len(from) == 0 || len(to) == 0 {
+		flag.Usage()
+		os.Exit(1)
+	}
+
+	if err := Copy(from, to, offset, limit); err != nil {
+		log.Fatalln(err)
+	}
 }
