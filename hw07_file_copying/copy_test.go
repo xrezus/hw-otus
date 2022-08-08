@@ -2,7 +2,7 @@ package main
 
 import (
 	"errors"
-	"io/ioutil"
+	"io"
 	"os"
 	"path/filepath"
 	"testing"
@@ -84,13 +84,13 @@ func TestCopy_PositiveCases(t *testing.T) {
 				_ = expResFile.Close()
 				_ = os.Remove(fileTo.Name())
 			}()
-			expRes, err := ioutil.ReadAll(expResFile)
+			expRes, err := io.ReadAll(expResFile)
 			require.NoError(t, err)
 
 			err = Copy(tc.from, fileTo.Name(), tc.offset, tc.limit)
 			require.NoError(t, err)
 
-			res, err := ioutil.ReadAll(fileTo)
+			res, err := io.ReadAll(fileTo)
 			require.NoError(t, err)
 			assert.Equal(t, expRes, res)
 		})
