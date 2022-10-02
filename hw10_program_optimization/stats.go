@@ -20,6 +20,7 @@ func GetDomainStat(r io.Reader, domain string) (DomainStat, error) {
 
 	reDomainIndex := reg.SubexpIndex("Domain")
 	result := make(DomainStat)
+
 	scanner := bufio.NewScanner(r)
 
 	for scanner.Scan() {
